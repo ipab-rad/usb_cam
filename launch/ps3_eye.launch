@@ -1,0 +1,31 @@
+<launch>
+  <arg name="machine" default="localhost"/>
+
+  <machine name="localhost" address="127.0.0.1" default="true"/>
+
+  <node
+    name="head_cam"
+    pkg="usb_cam"
+    type="usb_cam_node"
+    output="screen"
+    machine="$(arg machine)">
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="320" />
+    <param name="image_height" value="240" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="head_cam" />
+    <param name="io_method" value="mmap"/>
+    <param name="framerate" value="125"/>
+    <param name="focus" value="0"/>
+    <param name="auto_white_balance" value="true"/>
+    <param name="gain" value="20"/>
+  </node>
+
+   <node
+    name="image_proc_head_cam"
+    pkg="image_proc"
+    type="image_proc"
+    ns="head_cam"
+    output="screen"/>
+</launch>
+
